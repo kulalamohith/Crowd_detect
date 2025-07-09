@@ -1,30 +1,34 @@
 import requests
 import random
 import time
-from datetime import datetime
+import json
 
-#  backend endpoint (localhost or your hosted server)
+selected_gates = [
+    {"locationId": "stadium1", "gateId": "G1"},
+    {"locationId": "metro1", "gateId": "G4"},
+    {"locationId": "mall1", "gateId": "G6"},
+    {"locationId": "theatre1", "gateId": "G7"}
+]
+
 API_URL = "http://localhost:5000/api/crowd-data"
-
-# List of zones to simulate
-zones = ["Z1", "Z2", "Z3", "Z4"]
 
 def generate_density():
     return round(random.uniform(2.5, 9.8), 2)
 
 def send_data():
-    for zone in zones:
+    for gate in selected_gates:
         data = {
-            "zoneId": zone,
+            "locationId": gate["locationId"],
+            "gateId": gate["gateId"],
             "density": generate_density()
         }
         try:
             res = requests.post(API_URL, json=data)
-            print(f" Sent to {zone} -> {data['density']} | Status: {res.status_code}")
+            status = "yes" if res.status_code == 201 else "no"
+            print(f"{status} {data}")
         except Exception as e:
-            print(" Failed:", e)
+            print("Failed to send:", e)
 
-# Main loop – send data every 5 seconds
 if __name__ == "__main__":
     while True:
         send_data()
