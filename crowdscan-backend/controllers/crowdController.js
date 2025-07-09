@@ -101,7 +101,7 @@ exports.getRiskSummary = async (req, res) => {
     // Step 3: Build text summary per location
     let zoneText = "";
     for (const [locationId, gates] of Object.entries(locationMap)) {
-      zoneText += `📍 Location: ${locationId}\n`;
+      zoneText += ` Location: ${locationId}\n`;
       for (const gate of gates) {
         zoneText += ` - Gate ${gate.gateId}: Density ${gate.latest}, Trend ${gate.trend}, Status: ${gate.tag}\n`;
       }
