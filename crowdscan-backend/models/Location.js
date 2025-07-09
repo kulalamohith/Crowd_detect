@@ -1,12 +1,19 @@
 const mongoose = require("mongoose");
 
 const locationSchema = new mongoose.Schema({
-zoneId: { type: String, required: true },
-zoneName: { type: String, required: true },
+locationId: { type: String, required: true },
+locationName: { type: String, required: true }, // eg. "Cricket Stadium"
+locationType: { type: String, required: true }, // "stadium", "metro", etc.
+gates: [
+{
+gateId: { type: String, required: true }, // G1, G2, etc.
+name: { type: String, required: true }, // "North Gate"
 coordinates: {
-lat: { type: Number, required: true },
-lng: { type: Number, required: true },
+lat: { type: Number },
+lng: { type: Number }
 }
-}, { collection: "locations" }); 
+}
+]
+});
 
 module.exports = mongoose.model("Location", locationSchema);
